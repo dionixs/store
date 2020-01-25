@@ -2,9 +2,7 @@ require_relative 'lib/product'
 require_relative 'lib/book'
 require_relative 'lib/movie'
 
-products = []
-
-products << Movie.new(
+movie = Movie.new(
     name: "Леон",
     year: 1994,
     director: "Люк Бессон",
@@ -12,15 +10,10 @@ products << Movie.new(
     amount: 10
 )
 
-products << Movie.new(
-    name: "Дурак",
-    year: 2014,
-    director: "Юрий Быков",
-    price: 500,
-    amount: 1
-)
+movie.year = 1998
+movie.update(amount: 5)
 
-products << Book.new(
+book = Book.new(
     name: "Идиот",
     genre: "Роман",
     author: "Федор Достоевский",
@@ -28,9 +21,10 @@ products << Book.new(
     amount: 10
 )
 
-puts "Вот какие товары у нас есть:\n\n"
+book.amount = 20
+book.update(author: 'Достоевский', price: 1800)
 
-products.each do |item|
-  puts item
-end
+puts movie
+puts book
+
 
