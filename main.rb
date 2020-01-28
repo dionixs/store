@@ -10,8 +10,3 @@ collection.sort!(by: :amount, order: :asc)
 collection.to_a.each do |product|
   puts product
 end
-
-
-
-
-
