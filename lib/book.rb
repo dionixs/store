@@ -6,7 +6,7 @@ class Book < Product
     content = file.readlines
     content.each(&:strip!)
 
-    new(
+    self.new(
         name: content[0],
         genre: content[1],
         author: content[2],
