@@ -5,7 +5,8 @@ class ProductCollection
   # и ссылкой на класс.
   PRODUCT_TYPES = {
       movie: {dir: 'films', class: Movie},
-      book: {dir: 'books', class: Book}
+      book: {dir: 'books', class: Book},
+      music: {dir: 'music', class: Music}
   }
 
   # Конструктор коллекции принимает на вход массив продуктов,
@@ -20,6 +21,7 @@ class ProductCollection
   #
   # фильмы - из dir_path + '/films'
   # книги - из dir_path + '/books'
+  # музыка - из dir_path + '/music'
   def self.from_dir(dir_path)
     # Создаем пустой массив, куда будем записывать все найденные продукты.
     products = []
