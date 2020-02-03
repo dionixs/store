@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<products>
+  <books>
+    <book author="Федор Достоевский" genre="Роман" price="1500" amount="10">Идиот</book>
+    <book author="Стивен Кинг" genre="Бестселлер" price="1200" amount="5">Зеленая миля</book>
+    <book author="Александр Дюма" genre="Классическая литература" price="1000" amount="7">Граф Монте-Кристо</book>
+    <book author="Джон Р. Р. Толкин" genre="Фэнтези" price="1300" amount="8">Властелин Колец: Возвращение короля</book>
+  </books>
+  <movies>
+    <movie director="Люк Бессон" year="1994" price="990" amount="6">Леон</movie>
+    <movie director="Роберт Земекис" year="1985" price="800" amount="15">Назад в будущее</movie>
+  </movies>
+  <drives>
+    <drive artist="Judas Priest" genre="Heavy Metal" price="500" amount="2">Turbo</drive>
+    <drive artist="Judas Priest" genre="Heavy Metal" price="550" amount="3">Ram It Down</drive>
+    <drive artist="Frank Sinatra" genre="Jazz" price="600" amount="5">My Way</drive>
+  </drives>
+</products>

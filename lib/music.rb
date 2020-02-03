@@ -1,20 +1,6 @@
 class Music < Product
   attr_accessor :artist, :name, :genre
 
-  def self.from_file(path_to_file)
-    file = File.open(path_to_file, 'r:UTF-8')
-    content = file.readlines
-    content.each(&:strip!)
-
-    self.new(
-        artist: content[0],
-        name: content[1],
-        genre: content[2],
-        price: content[3].to_i,
-        amount:  content[4].to_i
-    )
-  end
-
   def initialize(params)
     super
 
@@ -31,7 +17,21 @@ class Music < Product
     @genre = params[:genre] if params[:genre]
   end
 
+  def self.from_file_txt(path_to_file)
+    file = File.open(path_to_file, 'r:UTF-8')
+    content = file.readlines
+    content.each(&:strip!)
+
+    self.new(
+        artist: content[0],
+        name: content[1],
+        genre: content[2],
+        price: content[3].to_i,
+        amount:  content[4].to_i
+    )
+  end
+
   def to_s
-    "Диск #{@artist} — #{@name} (#{@genre}) — #{@price} руб. [осталось: #{@amount}]"
+    "Диск #{@artist} — #{@name} (#{@genre}) — #{super}"
   end
 end

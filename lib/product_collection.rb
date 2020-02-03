@@ -46,7 +46,7 @@ class ProductCollection
       # берем путь к файлу и передаем его в метод класса from_file, вызывая его
       # у объекта нужного класса.
       Dir[dir_path + '/' + product_dir + '/*.txt'].each do |path|
-        products << product_class.from_file(path)
+        products << product_class.from_file_txt(path)
       end
     end
 

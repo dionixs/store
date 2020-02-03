@@ -1,20 +1,6 @@
 class Movie < Product
   attr_accessor :name, :year, :director
 
-  def self.from_file(path_to_file)
-    file = File.open(path_to_file, 'r:UTF-8')
-    content = file.readlines
-    content.each(&:strip!)
-
-    self.new(
-        name: content[0],
-        director: content[1],
-        year: content[2].to_i,
-        price: content[3].to_i,
-        amount: content[4].to_i
-    )
-  end
-
   def initialize(params)
     super
 
@@ -29,6 +15,20 @@ class Movie < Product
     @name = params[:name] if params[:name]
     @year = params[:year] if params[:year]
     @director = params[:director] if params[:director]
+  end
+
+  def self.from_file_txt(path_to_file)
+    file = File.open(path_to_file, 'r:UTF-8')
+    content = file.readlines
+    content.each(&:strip!)
+
+    self.new(
+        name: content[0],
+        director: content[1],
+        year: content[2].to_i,
+        price: content[3].to_i,
+        amount: content[4].to_i
+    )
   end
 
   def to_s
