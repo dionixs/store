@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 class ProductCollection
   # Константа со всеми возможными типами продуктов.
   # Это ассоциативный массив, где ключем является символ,
   # а значением - другой ассоциативный массив с названием папки,
   # и ссылкой на класс.
   PRODUCT_TYPES = {
-      movie: {dir: 'films', class: Movie},
-      book: {dir: 'books', class: Book},
-      music: {dir: 'music', class: Drive}
-  }
+    movie: { dir: 'films', class: Movie },
+    book: { dir: 'books', class: Book },
+    music: { dir: 'music', class: Drive }
+  }.freeze
 
   # Конструктор коллекции принимает на вход массив продуктов,
   # но если нечего не передали на вход, то он записывает в переменную
@@ -32,7 +34,7 @@ class ProductCollection
     # Сначала в type будет :film, а в hash — {dir: 'films', class: Movie}, потом
     # в type будет :book, а в hash — {dir: 'books', class: Book}
     #
-    PRODUCT_TYPES.each do |type, hash|
+    PRODUCT_TYPES.each do |_type, hash|
       # Получим из хэша путь к директории с файлами нужного типа, например,
       # строку 'films'
       product_dir = hash[:dir]
@@ -52,7 +54,7 @@ class ProductCollection
 
     # Вызываем конструктор этого же класса (ProductCollection) и передаем ему
     # заполненный массив продуктов
-    self.new(products)
+    new(products)
   end
 
   def to_a
@@ -68,13 +70,13 @@ class ProductCollection
     case params[:by]
     when :name
       # Сортировка по наименованию
-      @products.sort_by! { |product| product.name }
+      @products.sort_by!(&:name)
     when :price
       # Сортировка по цене
-      @products.sort_by! { |product| product.price }
+      @products.sort_by!(&:price)
     when :amount
       # Сортировка по количеству
-      @products.sort_by! { |product| product.amount }
+      @products.sort_by!(&:amount)
     end
 
     # Если запросили сортировку по возрастанию

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Book < Product
   attr_accessor :name, :genre, :author
 
@@ -22,32 +24,32 @@ class Book < Product
     content = file.readlines
     content.each(&:strip!)
 
-    self.new(
-        name: content[0],
-        genre: content[1],
-        author: content[2],
-        price: content[3].to_i,
-        amount: content[4].to_i
+    new(
+      name: content[0],
+      genre: content[1],
+      author: content[2],
+      price: content[3].to_i,
+      amount: content[4].to_i
     )
   end
 
   def self.add_product
-    puts "Укажите название книги"
+    puts 'Укажите название книги'
     name = STDIN.gets.strip
 
-    puts "Укажите жанр"
+    puts 'Укажите жанр'
     genre = STDIN.gets.strip
 
-    puts "Укажите автора"
+    puts 'Укажите автора'
     author = STDIN.gets.strip
 
-    params = Hash.new
+    params = {}
 
     params[:name] = name
     params[:genre] = genre
     params[:author] = author
 
-    return params
+    params
   end
 
   def to_xml
@@ -57,12 +59,11 @@ class Book < Product
                            'author' => @author,
                            'genre' => @genre,
                            'price' => @price,
-                           'amount' => @amount
-                           )
+                           'amount' => @amount)
 
     book.text = @name
 
-    return book
+    book
   end
 
   def save_to_xml(path_to_file)

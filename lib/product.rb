@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Product
   attr_accessor :price, :amount
 
@@ -19,7 +21,7 @@ class Product
     "#{@price} руб. [осталось: #{@amount}]"
   end
 
-  def self.from_file_txt(path_to_file)
+  def self.from_file_txt(_path_to_file)
     # медод raise генерирует исключение, при вызове: Product.from_file(path_to_file)
     raise NotImplementedError # ошибка реализации метода
   end
@@ -36,14 +38,14 @@ class Product
 
   def buy
     if @amount > 0
-      puts "* * *"
-      puts "Вы купили товар #{to_s}"
+      puts '* * *'
+      puts "Вы купили товар #{self}"
       puts "* * *\n\n"
 
       @amount -= 1
       @price
     else
-      puts "К сожалению, больше нет"
+      puts 'К сожалению, больше нет'
       0
     end
   end
@@ -60,7 +62,7 @@ class Product
     ['products/books/*', 'products/movies/*', 'products/drives/*'].each do |xpath|
       doc.elements.each(xpath) do |item|
         if item.to_s.include?('book')
-          params = Hash.new
+          params = {}
 
           params[:name] = item.text
           params[:author] = item.attributes['author']
@@ -72,7 +74,7 @@ class Product
         end
 
         if item.to_s.include?('movie')
-          params = Hash.new
+          params = {}
 
           params[:name] = item.text
           params[:year] = item.attributes['year'].to_i
@@ -83,27 +85,27 @@ class Product
           products << Movie.new(params)
         end
 
-        if item.to_s.include?('drive')
-          params = Hash.new
+        next unless item.to_s.include?('drive')
 
-          params[:name] = item.text
-          params[:artist] = item.attributes['artist']
-          params[:genre] = item.attributes['genre']
-          params[:price] = item.attributes['price'].to_i
-          params[:amount] = item.attributes['amount'].to_i
+        params = {}
 
-          products << Drive.new(params)
-        end
+        params[:name] = item.text
+        params[:artist] = item.attributes['artist']
+        params[:genre] = item.attributes['genre']
+        params[:price] = item.attributes['price'].to_i
+        params[:amount] = item.attributes['amount'].to_i
+
+        products << Drive.new(params)
       end
     end
-    return products
+    products
   end
 
   def self.choice_type_product(types)
     user_input = nil
 
     loop do
-      puts "Какой товар вы хотите выбрать?"
+      puts 'Какой товар вы хотите выбрать?'
       types.each_with_index do |item, index|
         puts "#{index}: #{item}"
       end
@@ -113,39 +115,38 @@ class Product
 
     type = types[user_input]
 
-    params = (Product.add_product).merge(type.add_product)
+    params = Product.add_product.merge(type.add_product)
 
-    return type.new(params)
+    type.new(params)
   end
 
   def self.add_product
-    puts "Укажите стоимость продукта в рублях"
+    puts 'Укажите стоимость продукта в рублях'
     price = STDIN.gets.to_i
 
-    puts "Укажите, сколько единиц продукта осталось на склад"
+    puts 'Укажите, сколько единиц продукта осталось на склад'
     amount = STDIN.gets.to_i
 
-    params = Hash.new
+    params = {}
 
     params[:price] = price
     params[:amount] = amount
 
-    return params
+    params
   end
 
-  def to_xml
-  end
+  def to_xml; end
 
   def save_to_xml(path_to_file)
     # если файл не существует, то он будет создан.
     unless File.exist?(path_to_file)
       File.open(path_to_file, 'w:UTF-8') do |file|
         file.puts "<?xml version='1.0' encoding='UTF-8'?>"
-        file.puts "<products>"
+        file.puts '<products>'
         file.puts "\t<books></books>"
         file.puts "\t<movies></movies>"
         file.puts "\t<drives></drives>"
-        file.puts "</products>"
+        file.puts '</products>'
       end
     end
 
@@ -160,20 +161,20 @@ class Product
 
     file.close
 
-    tag = self.to_xml
+    tag = to_xml
 
     if tag.to_s.include?('book')
-      doc.root.elements["books"].add_element(tag)
+      doc.root.elements['books'].add_element(tag)
     elsif tag.to_s.include?('movie')
-      doc.root.elements["movies"].add_element(tag)
+      doc.root.elements['movies'].add_element(tag)
     elsif tag.to_s.include?('drive')
-      doc.root.elements["drives"].add_element(tag)
+      doc.root.elements['drives'].add_element(tag)
     end
 
     File.open(path_to_file, 'w:UTF-8') do |file|
       doc.write(file, 2)
     end
 
-    puts "Товар добавлен!"
+    puts 'Товар добавлен!'
   end
 end

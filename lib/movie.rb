@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Movie < Product
   attr_accessor :name, :year, :director
 
@@ -22,32 +24,32 @@ class Movie < Product
     content = file.readlines
     content.each(&:strip!)
 
-    self.new(
-        name: content[0],
-        director: content[1],
-        year: content[2].to_i,
-        price: content[3].to_i,
-        amount: content[4].to_i
+    new(
+      name: content[0],
+      director: content[1],
+      year: content[2].to_i,
+      price: content[3].to_i,
+      amount: content[4].to_i
     )
   end
 
   def self.add_product
-    puts "Укажите название фильма"
+    puts 'Укажите название фильма'
     name = STDIN.gets.strip
 
-    puts "Укажите имя режиссера"
+    puts 'Укажите имя режиссера'
     director = STDIN.gets.strip
 
-    puts "Укажите год"
+    puts 'Укажите год'
     year = STDIN.gets.to_i
 
-    params = Hash.new
+    params = {}
 
     params[:name] = name
     params[:director] = director
     params[:year] = year
 
-    return params
+    params
   end
 
   def to_xml
@@ -57,12 +59,11 @@ class Movie < Product
                             'director' => @director,
                             'year' => @year,
                             'price' => @price,
-                            'amount' => @amount
-    )
+                            'amount' => @amount)
 
     movie.text = @name
 
-    return movie
+    movie
   end
 
   def save_to_xml(path_to_file)

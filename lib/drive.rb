@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Drive < Product
   attr_accessor :artist, :name, :genre
 
@@ -22,47 +24,46 @@ class Drive < Product
     content = file.readlines
     content.each(&:strip!)
 
-    self.new(
-        artist: content[0],
-        name: content[1],
-        genre: content[2],
-        price: content[3].to_i,
-        amount: content[4].to_i
+    new(
+      artist: content[0],
+      name: content[1],
+      genre: content[2],
+      price: content[3].to_i,
+      amount: content[4].to_i
     )
   end
 
   def self.add_product
-    puts "Укажите название исполнителя"
+    puts 'Укажите название исполнителя'
     artist = STDIN.gets.strip
 
-    puts "Укажите название альбома"
+    puts 'Укажите название альбома'
     name = STDIN.gets.strip
 
-    puts "Укажите музыкальный жанр"
+    puts 'Укажите музыкальный жанр'
     genre = STDIN.gets.strip
 
-    params = Hash.new
+    params = {}
 
     params[:artist] = artist
     params[:name] = name
     params[:genre] = genre
 
-    return params
+    params
   end
 
   def to_xml
     tag = REXML::Document.new
 
     drive = tag.add_element('drive',
-                           'artist' => @artist,
-                           'genre' => @genre,
-                           'price' => @price,
-                           'amount' => @amount
-    )
+                            'artist' => @artist,
+                            'genre' => @genre,
+                            'price' => @price,
+                            'amount' => @amount)
 
     drive.text = @name
 
-    return drive
+    drive
   end
 
   def save_to_xml(path_to_file)
