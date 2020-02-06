@@ -6,7 +6,7 @@ class ProductCollection
   PRODUCT_TYPES = {
       movie: {dir: 'films', class: Movie},
       book: {dir: 'books', class: Book},
-      music: {dir: 'music', class: Music}
+      music: {dir: 'music', class: Drive}
   }
 
   # Конструктор коллекции принимает на вход массив продуктов,

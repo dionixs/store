@@ -1,6 +1,10 @@
 class Product
   attr_accessor :price, :amount
 
+  def self.types
+    [Book, Movie, Drive]
+  end
+
   def initialize(params)
     @price = params[:price]
     @amount = params[:amount]
@@ -88,10 +92,88 @@ class Product
           params[:price] = item.attributes['price'].to_i
           params[:amount] = item.attributes['amount'].to_i
 
-          products << Music.new(params)
+          products << Drive.new(params)
         end
       end
     end
     return products
+  end
+
+  def self.choice_type_product(types)
+    user_input = nil
+
+    loop do
+      puts "Какой товар вы хотите выбрать?"
+      types.each_with_index do |item, index|
+        puts "#{index}: #{item}"
+      end
+      user_input = STDIN.gets.to_i
+      break if (0..types.size).include?(user_input)
+    end
+
+    type = types[user_input]
+
+    params = (Product.add_product).merge(type.add_product)
+
+    return type.new(params)
+  end
+
+  def self.add_product
+    puts "Укажите стоимость продукта в рублях"
+    price = STDIN.gets.to_i
+
+    puts "Укажите, сколько единиц продукта осталось на склад"
+    amount = STDIN.gets.to_i
+
+    params = Hash.new
+
+    params[:price] = price
+    params[:amount] = amount
+
+    return params
+  end
+
+  def to_xml
+  end
+
+  def save_to_xml(path_to_file)
+    # если файл не существует, то он будет создан.
+    unless File.exist?(path_to_file)
+      File.open(path_to_file, 'w:UTF-8') do |file|
+        file.puts "<?xml version='1.0' encoding='UTF-8'?>"
+        file.puts "<products>"
+        file.puts "\t<books></books>"
+        file.puts "\t<movies></movies>"
+        file.puts "\t<drives></drives>"
+        file.puts "</products>"
+      end
+    end
+
+    file = File.new(path_to_file, 'r:UTF-8')
+
+    begin
+      doc = REXML::Document.new(file)
+    rescue REXML::ParseException => e
+      puts 'XML файл поврежден!'
+      abort e.message
+    end
+
+    file.close
+
+    tag = self.to_xml
+
+    if tag.to_s.include?('book')
+      doc.root.elements["books"].add_element(tag)
+    elsif tag.to_s.include?('movie')
+      doc.root.elements["movies"].add_element(tag)
+    elsif tag.to_s.include?('drive')
+      doc.root.elements["drives"].add_element(tag)
+    end
+
+    File.open(path_to_file, 'w:UTF-8') do |file|
+      doc.write(file, 2)
+    end
+
+    puts "Товар добавлен!"
   end
 end

@@ -31,6 +31,44 @@ class Movie < Product
     )
   end
 
+  def self.add_product
+    puts "Укажите название фильма"
+    name = STDIN.gets.strip
+
+    puts "Укажите имя режиссера"
+    director = STDIN.gets.strip
+
+    puts "Укажите год"
+    year = STDIN.gets.to_i
+
+    params = Hash.new
+
+    params[:name] = name
+    params[:director] = director
+    params[:year] = year
+
+    return params
+  end
+
+  def to_xml
+    tag = REXML::Document.new
+
+    movie = tag.add_element('movie',
+                            'director' => @director,
+                            'year' => @year,
+                            'price' => @price,
+                            'amount' => @amount
+    )
+
+    movie.text = @name
+
+    return movie
+  end
+
+  def save_to_xml(path_to_file)
+    super
+  end
+
   def to_s
     "Фильм «#{@name}», #{@year}, реж. #{@director}, #{super}"
   end

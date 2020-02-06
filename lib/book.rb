@@ -31,6 +31,44 @@ class Book < Product
     )
   end
 
+  def self.add_product
+    puts "Укажите название книги"
+    name = STDIN.gets.strip
+
+    puts "Укажите жанр"
+    genre = STDIN.gets.strip
+
+    puts "Укажите автора"
+    author = STDIN.gets.strip
+
+    params = Hash.new
+
+    params[:name] = name
+    params[:genre] = genre
+    params[:author] = author
+
+    return params
+  end
+
+  def to_xml
+    tag = REXML::Element.new
+
+    book = tag.add_element('book',
+                           'author' => @author,
+                           'genre' => @genre,
+                           'price' => @price,
+                           'amount' => @amount
+                           )
+
+    book.text = @name
+
+    return book
+  end
+
+  def save_to_xml(path_to_file)
+    super
+  end
+
   def to_s
     "Книга: «#{@name}», #{@genre}, автор - #{@author}, #{super}"
   end
