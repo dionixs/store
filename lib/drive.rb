@@ -24,7 +24,7 @@ class Drive < Product
     content = file.readlines
     content.each(&:strip!)
 
-    new(
+    self.new(
       artist: content[0],
       name: content[1],
       genre: content[2],

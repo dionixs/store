@@ -24,7 +24,7 @@ class Movie < Product
     content = file.readlines
     content.each(&:strip!)
 
-    new(
+    self.new(
       name: content[0],
       director: content[1],
       year: content[2].to_i,

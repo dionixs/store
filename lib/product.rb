@@ -64,7 +64,7 @@ class Product
         if item.to_s.include?('book')
           params = {}
 
-          params[:name] = item.text
+          params[:name] = item.text.strip
           params[:author] = item.attributes['author']
           params[:genre] = item.attributes['genre']
           params[:price] = item.attributes['price'].to_i
@@ -76,7 +76,7 @@ class Product
         if item.to_s.include?('movie')
           params = {}
 
-          params[:name] = item.text
+          params[:name] = item.text.strip
           params[:year] = item.attributes['year'].to_i
           params[:director] = item.attributes['director']
           params[:price] = item.attributes['price'].to_i
@@ -89,7 +89,7 @@ class Product
 
         params = {}
 
-        params[:name] = item.text
+        params[:name] = item.text.strip
         params[:artist] = item.attributes['artist']
         params[:genre] = item.attributes['genre']
         params[:price] = item.attributes['price'].to_i
@@ -161,7 +161,7 @@ class Product
 
     file.close
 
-    tag = to_xml
+    tag = self.to_xml
 
     if tag.to_s.include?('book')
       doc.root.elements['books'].add_element(tag)
